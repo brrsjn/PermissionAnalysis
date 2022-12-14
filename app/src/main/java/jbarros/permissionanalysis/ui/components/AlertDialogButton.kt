@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AlertDialogButton(name: String, appName: String) {
-    MaterialTheme {
         Column {
             val openDialog = remember { mutableStateOf(false)  }
 
@@ -59,6 +58,6 @@ fun AlertDialogButton(name: String, appName: String) {
 
             }
         }
-    }
+
 
 }

@@ -3,6 +3,7 @@ package jbarros.permissionanalysis.ui.components
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -32,12 +33,12 @@ fun AplicationCard(appName: String, packageName: String, permissionQuantity: Int
                 .padding(bottom = extraPadding)
             ) {
                 Row {
-                    Text(text = appName)
+                    Text(text = appName, modifier = Modifier.fillMaxWidth(0.8f))
                     ElevatedButton(
                         onClick = { expanded = !expanded },
                         modifier = Modifier.padding(start = 15.dp)
                     ) {
-                        Text(if (expanded) "Ocultar" else "Ver más")
+                        Text(if (expanded) "-" else "+")
                     }
                 }
                 if (expanded) {

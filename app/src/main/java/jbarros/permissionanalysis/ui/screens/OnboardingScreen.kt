@@ -1,7 +1,5 @@
 package jbarros.permissionanalysis.ui.screens
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +11,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.ui.platform.LocalContext
+import jbarros.permissionanalysis.core.localDataSource.PackageManagerSource
+
 
 @Composable
 fun OnboardingScreen(
-    onContinueClicked: () -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
     var isClicked by remember {
         mutableStateOf(false)
     }
@@ -34,16 +35,14 @@ fun OnboardingScreen(
         Text("Escanearemos tu dispositivo en búsqueda de las aplicaciones instaladas y sus permisos")
         Button(
             modifier = Modifier.padding(vertical = 24.dp),
-            onClick = onContinueClicked,
-            interactionSource = interactionSource
+            onClick = {isClicked = true},
         ) {
-            Text("Continuar")
-        }
-        if (isPressed) {
-            isClicked = true
+            Text("Analizar dispositivo")
         }
         if (isClicked) {
             Text("Cargando...")
+            navController.navigate("appList")
+            isClicked = false
         }
     }
 }

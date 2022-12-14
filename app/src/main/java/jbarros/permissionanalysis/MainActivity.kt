@@ -3,6 +3,7 @@ package jbarros.permissionanalysis
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,28 +17,42 @@ import jbarros.permissionanalysis.ui.screens.OnboardingScreen
 import jbarros.permissionanalysis.ui.theme.PermissionAnalysisTheme
 
 import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import jbarros.permissionanalysis.ui.components.TopNavigationBar
+import jbarros.permissionanalysis.ui.screens.SendAppsScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PermissionAnalysisTheme {
-                MyApp(modifier = Modifier.fillMaxSize())
+                NavigationHost(modifier = Modifier.fillMaxSize())
             }
         }
     }
 }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier) {
-
-    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
+fun NavigationHost(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
 
     Surface(modifier) {
-        if (shouldShowOnboarding) {
-            OnboardingScreen(onContinueClicked = { shouldShowOnboarding = false })
-        } else {
-            AppListScreen()
+        NavHost(navController = navController, startDestination = "onBoarding") {
+            composable(route = "onBoarding") {
+                OnboardingScreen(navController)
+            }
+            composable(route = "appList") {
+                Column {
+                    AppListScreen(navController = navController)
+                }
+            }
+            composable(route = "sendApps") {
+                Column {
+                    SendAppsScreen(navController= navController)
+                }
+            }
         }
     }
 }
